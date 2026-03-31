@@ -1,0 +1,11 @@
+Model Information:
+* title:	Space"SHIP"
+* source:	https://sketchfab.com/3d-models/spaceship-c8d46e5baaf9484a82ef49b0b7cbc281
+* author:	amaniza2010 (https://sketchfab.com/amaniza2010)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Space"SHIP"" (https://sketchfab.com/3d-models/spaceship-c8d46e5baaf9484a82ef49b0b7cbc281) by amaniza2010 (https://sketchfab.com/amaniza2010) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

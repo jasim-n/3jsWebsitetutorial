@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { Suspense, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { ScrollControls, Scroll, useScroll } from '@react-three/drei';
 import Scene from './components/Scene';
@@ -76,7 +76,9 @@ function App() {
   return (
     <div className="canvas-container">
       <Canvas camera={{ position: [0, 0, 8], fov: 55 }}>
-        <AppInner />
+        <Suspense fallback={null}>
+          <AppInner />
+        </Suspense>
       </Canvas>
     </div>
   );
