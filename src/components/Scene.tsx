@@ -1,11 +1,15 @@
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { Environment, Float, MeshDistortMaterial, Sphere, useScroll } from '@react-three/drei';
 import { useRef } from 'react';
 import * as THREE from 'three';
+import { GlassCarousel } from './GlassCarousel';
+import { TestimonialCards } from './TestimonialCards';
+import { OceanShip } from './OceanShip';
 
 function AnimatedSphere() {
   const meshRef = useRef<THREE.Mesh>(null);
   const scroll = useScroll();
+  const { viewport } = useThree();
 
   useFrame((state) => {
     if (!meshRef.current) return;
@@ -26,18 +30,26 @@ function AnimatedSphere() {
     // Sec 2 is 0.33 -> 0.66
     // Sec 3 is 0.66 -> 1.0
 
-    if (offset < 0.33) {
-      const progress = offset / 0.33;
-      targetPosition.lerpVectors(new THREE.Vector3(2, -1, 0), new THREE.Vector3(-2, 0, 0), progress);
+    // Dynamic edge padding so the ball touches the sides but doesn't get fully clipped
+    const edgeX = (viewport.width / 2) - 2.5;
+
+    if (offset < 0.25) {
+      const progress = offset / 0.25;
+      targetPosition.lerpVectors(new THREE.Vector3(edgeX, -1, 0), new THREE.Vector3(-edgeX, 0, 0), progress);
       targetScale = 1.5 - (0.5 * progress);
-    } else if (offset < 0.66) {
-      const progress = (offset - 0.33) / 0.33;
-      targetPosition.lerpVectors(new THREE.Vector3(-2, 0, 0), new THREE.Vector3(2, 0, 0), progress);
+    } else if (offset < 0.5) {
+      const progress = (offset - 0.25) / 0.25;
+      targetPosition.lerpVectors(new THREE.Vector3(-edgeX, 0, 0), new THREE.Vector3(edgeX, 0, 0), progress);
       targetScale = 1;
+    } else if (offset < 0.75) {
+      const progress = (offset - 0.5) / 0.25;
+      targetPosition.lerpVectors(new THREE.Vector3(edgeX, 0, 0), new THREE.Vector3(0, 0.5, 0), progress);
+      targetScale = 1 - (0.5 * progress); // shrink
     } else {
-      const progress = (offset - 0.66) / 0.34;
-      targetPosition.lerpVectors(new THREE.Vector3(2, 0, 0), new THREE.Vector3(0, 0, 0), progress);
-      targetScale = 1 + (1 * progress);
+      // Final section (testimonials): sphere moves to back, very small
+      const progress = (offset - 0.75) / 0.25;
+      targetPosition.lerpVectors(new THREE.Vector3(0, 0.5, 0), new THREE.Vector3(-edgeX * 1.5, 5, -4), progress);
+      targetScale = 0.5 - (0.4 * progress); // almost hidden
     }
 
     // ScrollControls with damping=0.25 already smoothly interpolates scroll.offset.
@@ -68,7 +80,10 @@ export default function Scene() {
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
       <Environment preset="city" />
-      <AnimatedSphere />
+      {/* <AnimatedSphere /> */}
+      <OceanShip />
+      <GlassCarousel />
+      <TestimonialCards />
     </>
   );
 }
