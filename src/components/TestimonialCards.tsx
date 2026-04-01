@@ -37,12 +37,20 @@ export function TestimonialCards() {
 
     // Use shared scroll.offset (0.8 to 1.0 is the testimonials page)
     const rawScroll = scrollStore.offset;
-    const vis = Math.max(0, Math.min(1, (rawScroll - 0.7) / 0.3));
+    const visIn = Math.max(0, Math.min(1, (rawScroll - 0.52) / 0.1));
+    const visOut = Math.max(0, Math.min(1, (rawScroll - 0.78) / 0.08));
 
-    // Slide entire group into position
-    const targetX = THREE.MathUtils.lerp(12, 0, vis);
-    const targetY = THREE.MathUtils.lerp(-10, 0, vis);
-    const targetZ = THREE.MathUtils.lerp(-4, -0.5, vis);
+    // Slide entire group into position and then up out of view later
+    let targetX = THREE.MathUtils.lerp(12, 0, visIn);
+    let targetY = THREE.MathUtils.lerp(-30, 0, visIn);
+    let targetZ = THREE.MathUtils.lerp(-4, -0.5, visIn);
+
+    if (visOut > 0) {
+      targetX = THREE.MathUtils.lerp(0, -12, visOut);
+      targetY = THREE.MathUtils.lerp(0, 30, visOut);
+      targetZ = THREE.MathUtils.lerp(-0.5, -4, visOut);
+    }
+
     groupRef.current.position.set(
       THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.08),
       THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.08),
@@ -50,7 +58,7 @@ export function TestimonialCards() {
     );
 
     // Calculate how far through the section we are to drive the carousel exactly
-    const sectionProgress = Math.max(0, Math.min(1, (rawScroll - 0.8) / 0.2));
+    const sectionProgress = Math.max(0, Math.min(1, (rawScroll - 0.55) / 0.25));
     const smoothOffset = sectionProgress * TOTAL_W * 1.5; // Scroll speed multiplier
     
     // Position cards on sine wave track
@@ -79,7 +87,7 @@ export function TestimonialCards() {
   const PAD_Y = 0.3;
 
   return (
-    <group ref={groupRef} position={[12, -10, -4]}>
+    <group ref={groupRef} position={[12, -30, -4]}>
       {/* Background text */}
       <Text
         position={[0, 0.5, -2.5]}

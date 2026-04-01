@@ -20,7 +20,7 @@ function getWaveHeight(x: number, z: number, time: number) {
 export function OceanShip() {
   const shipGroupRef = useRef<THREE.Group>(null);
   const shipBobRef = useRef<THREE.Group>(null);
-  
+
   const scroll = useScroll();
   const { viewport } = useThree();
 
@@ -28,11 +28,11 @@ export function OceanShip() {
   // Spaceship GLTF (Standard)
   const ship = useGLTF('/modals/spaceship/scene.gltf');
   // Water GLB (Large 163MB)
-  const water = useGLTF('/modals/water_waves.glb');
+  // const water = useGLTF('/modals/water_waves.glb');
 
   // 2. Leva Controls
   const { showWater, shipScale, oceanY } = useControls('Scene Controls', {
-    showWater: true,
+    showWater: false,
     shipScale: { value: 0.8, min: 0.1, max: 2.0, step: 0.1 },
     oceanY: { value: -2.5, min: -10, max: 0, step: 0.1 }
   });
@@ -51,18 +51,18 @@ export function OceanShip() {
       if (offset < 0.25) {
         const p = offset / 0.25;
         targetPos.lerpVectors(new THREE.Vector3(edgeX, 0, 0), new THREE.Vector3(-edgeX, -0.5, 2), p);
-      } 
+      }
       // Section 2: Left -> Right
       else if (offset < 0.5) {
         const p = (offset - 0.25) / 0.25;
         targetPos.lerpVectors(new THREE.Vector3(-edgeX, -0.5, 2), new THREE.Vector3(edgeX, 0, -2), p);
-      } 
+      }
       // Section 3: Right -> Center
       else if (offset < 0.75) {
         const p = (offset - 0.5) / 0.25;
         targetPos.lerpVectors(new THREE.Vector3(edgeX, 0, -2), new THREE.Vector3(0, 0.5, -4), p);
         targetBaseScale *= (1.0 - (0.4 * p));
-      } 
+      }
       // Section 4: Exit
       else {
         const p = (offset - 0.75) / 0.25;
@@ -82,7 +82,7 @@ export function OceanShip() {
     if (shipGroupRef.current && shipBobRef.current) {
       const sx = shipGroupRef.current.position.x;
       const sz = shipGroupRef.current.position.z;
-      
+
       const shipY = getWaveHeight(sx, sz, time);
       shipBobRef.current.position.y = shipY;
 
@@ -97,13 +97,13 @@ export function OceanShip() {
   return (
     <group>
       {/* ─── High Quality Ocean Model ─── */}
-      {showWater && (
+      {/* {showWater && (
         <primitive 
           object={water.scene} 
           position={[0, oceanY, -5]} 
           scale={[2, 1, 2]} 
         />
-      )}
+      )} */}
 
       {/* ─── Spaceship Model ─── */}
       <group ref={shipGroupRef}>
@@ -120,4 +120,4 @@ export function OceanShip() {
 
 // Preload to avoid mounting jank
 useGLTF.preload('/modals/spaceship/scene.gltf');
-useGLTF.preload('/modals/water_waves.glb');
+// useGLTF.preload('/modals/water_waves.glb');

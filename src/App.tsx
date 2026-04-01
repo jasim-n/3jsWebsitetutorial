@@ -15,9 +15,10 @@ function BackgroundColor() {
   const current = useRef(new THREE.Color('#050505'));
 
   useFrame(() => {
-    // Transition to light when in the testimonial section (offset > 0.75)
-    const p = Math.max(0, Math.min(1, (scroll.offset - 0.75) / 0.1));
-    current.current.lerpColors(colorDark, colorLight, p);
+    // Fade to light when entering testimonial section (offset > 0.55) and stay light
+    const p1 = Math.max(0, Math.min(1, (scroll.offset - 0.55) / 0.1));
+    
+    current.current.lerpColors(colorDark, colorLight, p1);
     scene.background = current.current;
   });
 
@@ -33,7 +34,7 @@ function ScrollTracker() {
 
 function AppInner() {
   return (
-    <ScrollControls pages={5} damping={0.25}>
+    <ScrollControls pages={6.45} damping={0.25}>
       <ScrollTracker />
       <BackgroundColor />
       <Scene />
@@ -66,6 +67,13 @@ function AppInner() {
           <section className="section testimonials">
             <div className="section-content" />
           </section>
+          <section className="section text-block" style={{ minHeight: '45vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background: 'rgba(255,255,255,0.0)' }}>
+            <div className="section-content" style={{ background: 'rgba(255,255,255,0.85)', padding: '2rem 3rem', borderRadius: '24px', backdropFilter: 'blur(10px)', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
+              <h2>Interactive Discoveries</h2>
+              <p style={{ margin: 0 }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            </div>
+          </section>
+          <section className="section glassglob" style={{ height: '100vh', pointerEvents: 'none' }}></section>
         </main>
       </Scroll>
     </ScrollControls>

@@ -19,13 +19,13 @@ export function GlassCarousel() {
 
   useFrame((state) => {
     if (!groupRef.current) return;
-    
+
     // Rotate the entire carousel continuously, plus bound rotation to scroll progress 
     groupRef.current.rotation.y = state.clock.elapsedTime * 0.1 + (scroll.offset * Math.PI * 4);
-    
+
     // Animate Y position so it slides up when we reach the second half of the page
     // Using simple lerp logic towards a target based on the scroll offset
-    const targetY = scroll.offset > 0.3 && scroll.offset < 0.7 ? 0 : -15;
+    const targetY = scroll.offset > 0.25 && scroll.offset < 0.48 ? 0 : -20;
     groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.05);
   });
 
@@ -41,7 +41,7 @@ export function GlassCarousel() {
             {/* The Glassy Card */}
             <mesh>
               <planeGeometry args={[2.2, 3.2]} />
-              <MeshTransmissionMaterial 
+              <MeshTransmissionMaterial
                 backside={true}
                 samples={4}
                 thickness={0.5}
@@ -55,11 +55,11 @@ export function GlassCarousel() {
               />
             </mesh>
             {/* The Text embedded on the glass */}
-            <Text 
-              position={[0, 0, 0.1]} 
-              fontSize={0.25} 
-              color="#ffffff" 
-              anchorX="center" 
+            <Text
+              position={[0, 0, 0.1]}
+              fontSize={0.25}
+              color="#ffffff"
+              anchorX="center"
               anchorY="middle"
               maxWidth={1.8}
             >

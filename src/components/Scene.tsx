@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { GlassCarousel } from './GlassCarousel';
 import { TestimonialCards } from './TestimonialCards';
 import { OceanShip } from './OceanShip';
+import { GlassGlobeShip } from './GlassGlobeShip';
 
 function AnimatedSphere() {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -13,13 +14,13 @@ function AnimatedSphere() {
 
   useFrame((state) => {
     if (!meshRef.current) return;
-    
+
     // Constant rotation
     meshRef.current.rotation.y = state.clock.elapsedTime * 0.2;
 
     // Scroll interpolation
     // offset goes from 0 (top) to 1 (bottom)
-    const offset = scroll.offset; 
+    const offset = scroll.offset;
 
     // Calculate target position and scale based on scroll sections
     const targetPosition = new THREE.Vector3();
@@ -61,13 +62,13 @@ function AnimatedSphere() {
   return (
     <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
       <Sphere ref={meshRef} args={[1, 64, 64]}>
-        <MeshDistortMaterial 
-          color="#4200ff" 
-          attach="material" 
-          distort={0.4} 
-          speed={2} 
-          roughness={0.1} 
-          metalness={0.9} 
+        <MeshDistortMaterial
+          color="#4200ff"
+          attach="material"
+          distort={0.4}
+          speed={2}
+          roughness={0.1}
+          metalness={0.9}
         />
       </Sphere>
     </Float>
@@ -79,11 +80,12 @@ export default function Scene() {
     <>
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
-      <Environment preset="city" />
+      {/* <Environment preset="city" /> */}
       {/* <AnimatedSphere /> */}
       <OceanShip />
       <GlassCarousel />
       <TestimonialCards />
+      <GlassGlobeShip />
     </>
   );
 }
