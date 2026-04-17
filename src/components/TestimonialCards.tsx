@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text, RoundedBox, MeshTransmissionMaterial } from '@react-three/drei';
+import { Text, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 import { scrollStore } from '../scrollStore';
 
@@ -109,23 +109,16 @@ export function TestimonialCards() {
           
           {/* Thick 3D Beveled Glass Card */}
           <RoundedBox args={[CARD_W, CARD_H, CARD_D]} radius={0.06} smoothness={5}>
-            <MeshTransmissionMaterial
-              backside
-              backsideThickness={0.1}
-              thickness={CARD_D}
-              chromaticAberration={0.03}
-              anisotropy={0.1}
-              distortion={0.0}
-              distortionScale={0.0}
-              temporalDistortion={0.0}
-              ior={1.2}
+            <meshPhysicalMaterial
               color="#ffffff"
-              roughness={0.18}
+              transparent
+              opacity={0.18}
+              roughness={0.1}
+              metalness={0}
               clearcoat={1}
               clearcoatRoughness={0.05}
-              transmission={0.55}
-              transparent={true}
-              opacity={1}
+              reflectivity={12}
+              side={THREE.DoubleSide}
             />
           </RoundedBox>
 

@@ -1,12 +1,12 @@
 import { useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { useGLTF, Float, Sphere, Clone, Center, MeshTransmissionMaterial } from '@react-three/drei';
+import { useGLTF, Float, Sphere, Clone, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { scrollStore } from '../scrollStore';
 
 const GLOBE_RADIUS = 2.5;
-const NUM_BLOCKS = 420;
-const BLOCK_SIZE = [0.4, 0.4, 0.08] as [number, number, number];
+const NUM_BLOCKS = 220;
+const BLOCK_SIZE = [0.6, 0.6, 0.08] as [number, number, number];
 const HOVER_RADIUS = 1.5;
 const HOVER_PUSH = 1.8; // How far to push blocks away
 
@@ -83,10 +83,10 @@ function InstancesGlobe() {
 
           // Push radially outwards from the center of the sphere
           const pushDir = basePos.clone().normalize();
-          targetPos.add(pushDir.multiplyScalar(force * HOVER_PUSH * 5.2));//will do it my self remove 5.2
+          targetPos.add(pushDir.multiplyScalar(force * HOVER_PUSH ));//will do it my self remove 5.2
 
           // Optionally shrink blocks slightly as they push out to create a deeper "hole"
-          blockScale = 1 - (force * 1.9);//will do it my self make .9 .6
+          blockScale = 1 - (force * .9);//will do it my self make .9 .6
         }
       }
 
@@ -152,25 +152,16 @@ function InstancesGlobe() {
           color="#ffffff"           // Keep base white for pure light transmission
         /> */}
 
-        <MeshTransmissionMaterial
-          transmission={1}
-
-          thickness={0.6}
-          roughness={0.15}       // foggy blur
-
-          ior={1.2}              // lower = more see-through
-
-          chromaticAberration={0.03}
-
-          backside={true}
-          backsideThickness={0.5}
-
-          resolution={1024}      // 🔥 IMPORTANT (buffer quality)
-          samples={6}            // 🔥 IMPORTANT (smoothness)
-
-          envMapIntensity={0}    // 🚨 disable HDR reflection
-
+        <meshPhysicalMaterial
           color="#ffffff"
+                        transparent
+                        opacity={0.18}
+                        roughness={30}
+                        metalness={0}
+                        clearcoat={1}
+                        clearcoatRoughness={0.05}
+                        reflectivity={12}
+                        side={THREE.DoubleSide}
         />
       </instancedMesh>
     </group>

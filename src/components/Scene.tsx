@@ -1,5 +1,5 @@
 import { useFrame, useThree } from '@react-three/fiber';
-import { Environment, Float, MeshDistortMaterial, Sphere, useScroll } from '@react-three/drei';
+import { Float, MeshDistortMaterial, Sphere, useScroll } from '@react-three/drei';
 import { useRef } from 'react';
 import * as THREE from 'three';
 import { GlassCarousel } from './GlassCarousel';
@@ -80,7 +80,6 @@ export default function Scene() {
     <>
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} intensity={1} />
-      {/* <Environment preset="city" /> */}
       {/* <AnimatedSphere /> */}
       <OceanShip />
       <GlassCarousel />
