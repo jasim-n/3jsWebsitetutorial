@@ -1,7 +1,8 @@
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useScroll, MeshTransmissionMaterial, Text } from '@react-three/drei';
+import { MeshTransmissionMaterial, Text } from '@react-three/drei';
 import * as THREE from 'three';
+import { scrollStore } from '../scrollStore';
 
 const CARDS = [
   { title: "Project Alpha", color: "#ff0055" },
@@ -13,7 +14,6 @@ const CARDS = [
 
 export function GlassCarousel() {
   const groupRef = useRef<THREE.Group>(null);
-  const scroll = useScroll();
   const radius = 3.5;
   const count = CARDS.length;
 
@@ -21,11 +21,11 @@ export function GlassCarousel() {
     if (!groupRef.current) return;
 
     // Rotate the entire carousel continuously, plus bound rotation to scroll progress 
-    groupRef.current.rotation.y = state.clock.elapsedTime * 0.1 + (scroll.offset * Math.PI * 4);
+    groupRef.current.rotation.y = state.clock.elapsedTime * 0.1 + (scrollStore.offset * Math.PI * 4);
 
     // Animate Y position so it slides up when we reach the second half of the page
     // Using simple lerp logic towards a target based on the scroll offset
-    const targetY = scroll.offset > 0.25 && scroll.offset < 0.48 ? 0 : -20;
+    const targetY = scrollStore.offset > 0.25 && scrollStore.offset < 0.48 ? 0 : -20;
     groupRef.current.position.y = THREE.MathUtils.lerp(groupRef.current.position.y, targetY, 0.05);
   });
 

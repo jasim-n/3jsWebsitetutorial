@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
-import { useScroll, useGLTF, Float } from '@react-three/drei';
+import { useGLTF, Float } from '@react-three/drei';
 import { useControls } from 'leva';
 import * as THREE from 'three';
+import { scrollStore } from '../scrollStore';
 
 // ─── Simple Wave Function for Ship Bobbing ───────────────────────────────────
 // We use this to calculate physics heights. 
@@ -21,7 +22,6 @@ export function OceanShip() {
   const shipGroupRef = useRef<THREE.Group>(null);
   const shipBobRef = useRef<THREE.Group>(null);
 
-  const scroll = useScroll();
   const { viewport } = useThree();
 
   // 1. Load Models 
@@ -39,7 +39,7 @@ export function OceanShip() {
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
-    const offset = scroll.offset;
+    const offset = scrollStore.offset;
 
     // ─── Ship Scroll Path (Horizontal Sweep) ───
     if (shipGroupRef.current) {

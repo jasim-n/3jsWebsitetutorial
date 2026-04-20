@@ -9,6 +9,6 @@ body {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: #050505;
   color: #ffffff;
-  overflow: hidden;
-  /* Prevent native scroll, ScrollControls handles it! */
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
